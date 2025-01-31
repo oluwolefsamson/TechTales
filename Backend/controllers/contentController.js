@@ -58,7 +58,7 @@ const generateDynamicContent = async (req, res) => {
     // Randomly select one of the topics for variation
     const randomTopic =
       randomTopics[Math.floor(Math.random() * randomTopics.length)];
-    const specialtyPrompt = `Generate a short, 150-word paragraph about ${specialty} with a focus on ${randomTopic}. Please ensure the content ends at the first full stop (period). Keep the language clear, professional, and inspiring. Avoid jargon and aim for a complete thought within a single sentence.`;
+    const specialtyPrompt = `Share a brief, inspiring post about ${specialty} with a focus on ${randomTopic}. Keep it clear, engaging, and easy to understand, making sure to wrap up your thoughts in one concise sentence that fits perfectly into a social media post.`;
 
     // Call Groq API to generate content
     const apiResponse = await groq.chat.completions.create({
