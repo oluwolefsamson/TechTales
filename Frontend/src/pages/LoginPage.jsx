@@ -127,7 +127,6 @@ const Login = () => {
       </div>
 
       {/* Image Container - flex: 2 */}
-      {/* Image Container - flex: 2 */}
       <div className="hidden md:flex flex-2 w-full lg:w-2/3 items-center justify-center relative order-1 lg:order-2">
         <img
           src={loginImg}
