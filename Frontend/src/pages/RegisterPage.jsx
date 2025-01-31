@@ -7,7 +7,6 @@ import signupImg from "../assets/signupImg.jpg"; // Import your image
 import { DotLoader } from "react-spinners";
 
 const Signup = () => {
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +20,7 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const userData = { username, email, phone, password, specialty };
+    const userData = { email, phone, password, specialty };
     dispatch(registerUser(userData))
       .unwrap()
       .then(() => navigate("/login"))

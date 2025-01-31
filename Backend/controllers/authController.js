@@ -5,7 +5,7 @@ require("dotenv").config();
 
 // Register a new user
 const registerUser = async (req, res) => {
-  const { username, email, password, specialty } = req.body;
+  const { email, password, specialty } = req.body;
 
   try {
     // Check if user exists
@@ -20,7 +20,6 @@ const registerUser = async (req, res) => {
 
     // Create new user
     const newUser = new User({
-      username,
       email,
       password: hashedPassword,
       specialty,
@@ -40,7 +39,7 @@ const registerUser = async (req, res) => {
       token,
       user: {
         userId: newUser._id,
-        username: newUser.username,
+
         email: newUser.email,
         specialty: newUser.specialty,
       },

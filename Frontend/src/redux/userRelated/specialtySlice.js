@@ -9,7 +9,7 @@ export const generateContent = createAsyncThunk(
   "specialty/generateContent",
   async (specialty, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`  ${API_URL}/api/content/generate`, {
+      const response = await axios.post(`${API_URL}/api/content/generate`, {
         specialty,
       });
       if (response.data.success) {

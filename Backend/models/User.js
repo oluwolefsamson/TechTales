@@ -10,10 +10,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  phone: {
+    type: String,
+    required: false,
+  },
   specialty: {
     type: String,
     enum: ["Healthcare", "Technology", "Education", "Finance", "Other"],
-    default: "Technology",
+    required: true,
   },
 });
 
