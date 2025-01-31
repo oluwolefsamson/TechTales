@@ -13,7 +13,7 @@ app.use(cors());
 
 // To restrict CORS to specific origins (optional)
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://tech-tales-qv6h.vercel.app"], // Update this with your Vercel URL
+  origin: ["http://localhost:5173", "https://tech-tales-iota.vercel.app"], // Update this with your Vercel URL
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // If you're sending cookies or auth tokens
   optionsSuccessStatus: 200,
