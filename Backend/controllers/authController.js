@@ -139,7 +139,9 @@ const loginUser = async (req, res) => {
 // Google OAuth callback
 const googleAuthCallback = async (req, res) => {
   if (!req.user) {
-    return res.redirect("http://localhost:5173/login?error=google-auth-failed");
+    return res.redirect(
+      "https://tech-tales-iota.vercel.app/login?error=google-auth-failed"
+    );
   }
 
   try {
@@ -178,10 +180,10 @@ const googleAuthCallback = async (req, res) => {
     });
 
     // Redirect to ChooseSpecialty page with userId
-    res.redirect(`http://localhost:5173/specialty/${user._id}`);
+    res.redirect(`https://tech-tales-iota.vercel.app/specialty/${user._id}`);
   } catch (err) {
     console.error("Google Auth Error:", err);
-    res.redirect("http://localhost:5173/login?error=server-error");
+    res.redirect("https://tech-tales-iota.vercel.app/login?error=server-error");
   }
 };
 
@@ -189,7 +191,7 @@ const googleAuthCallback = async (req, res) => {
 const logoutUser = (req, res) => {
   req.logout();
   req.session.destroy(() => {
-    res.redirect("http://localhost:5173/login");
+    res.redirect("https://tech-tales-iota.vercel.app/login");
   });
 };
 
