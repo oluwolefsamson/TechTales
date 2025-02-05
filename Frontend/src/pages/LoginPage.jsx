@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DotLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../src/redux/userRelated/authSlice";
+import { loginUser, googleLogin } from "../redux/userRelated/authSlice"; // Import googleLogin from authSlice
+
 import loginImg from "../assets/loginImg3.jpg";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -102,11 +105,13 @@ const Login = () => {
               {isLoading ? <DotLoader size={25} color="white" /> : "Login"}
             </button>
           </div>
-
           <div className="mt-5">
             <button
               type="button"
               className="w-full flex items-center justify-center gap-2 bg-white text-[#757575] text-[18px] leading-[30px] rounded-lg px-4 py-3 border border-[#ddd] hover:bg-gray-50"
+              onClick={() =>
+                (window.location.href = "http://localhost:8000/api/auth/google")
+              }
             >
               <img
                 src="https://www.google.com/favicon.ico"

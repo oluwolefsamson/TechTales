@@ -8,9 +8,8 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false, // Set to false here
   },
-
   phone: {
     type: String,
     required: false,
@@ -18,8 +17,37 @@ const userSchema = new mongoose.Schema({
   specialty: {
     type: String,
     enum: ["Healthcare", "Technology", "Education", "Finance", "Other"],
-    required: true,
+    default: "Technology", // Set default here
   },
+  googleAuth: {
+    type: Boolean,
+    default: false,
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Pre-save hook to handle default values and password conditionally
+userSchema.pre("save", function (next) {
+  // Ensure specialty has a valid value
+  if (!this.specialty || this.specialty.trim() === "") {
+    this.specialty = "Technology"; // Set default if empty or undefined
+  }
+
+  // If it's a new user and Google authentication is used, set googleAuth = true
+  if (this.isNew && !this.password) {
+    this.googleAuth = true;
+  }
+
+  // If user is not using Google authentication and password is missing, throw an error
+  if (!this.googleAuth && !this.password) {
+    return next(new Error("Password is required for regular users"));
+  }
+
+  next();
 });
 
 module.exports = mongoose.model("User", userSchema);

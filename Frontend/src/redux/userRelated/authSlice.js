@@ -3,6 +3,15 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
+// Helper function to store token
+const setAuthToken = (token) => {
+  if (token) {
+    localStorage.setItem("token", token);
+  } else {
+    localStorage.removeItem("token");
+  }
+};
+
 // Register User
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -12,6 +21,7 @@ export const registerUser = createAsyncThunk(
         `${API_URL}/api/auth/register`,
         userData
       );
+      setAuthToken(response.data.token);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -30,10 +40,32 @@ export const loginUser = createAsyncThunk(
         `${API_URL}/api/auth/login`,
         credentials
       );
+      setAuthToken(response.data.token);
       return response.data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.msg || "Failed to login user"
+      );
+    }
+  }
+);
+
+// Google Login
+export const googleLogin = createAsyncThunk(
+  "auth/googleLogin",
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/auth/google/callback`,
+        {
+          token,
+        }
+      );
+      setAuthToken(response.data.token);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.msg || "Google authentication failed"
       );
     }
   }
@@ -44,8 +76,8 @@ export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post(`${API_URL}/api/auth/logout`);
-      localStorage.removeItem("token"); // ✅ Remove token from local storage
+      await axios.get(`${API_URL}/api/auth/logout`);
+      setAuthToken(null);
       return true;
     } catch (error) {
       return rejectWithValue(error.response?.data?.msg || "Logout failed");
@@ -69,7 +101,7 @@ const authSlice = createSlice({
       state.token = null;
       state.userId = null;
       state.isAuthenticated = false;
-      localStorage.removeItem("token"); // ✅ Ensure token is removed from storage
+      setAuthToken(null);
     },
   },
   extraReducers: (builder) => {
@@ -84,7 +116,6 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         state.userId = action.payload.user.userId;
         state.isAuthenticated = true;
-        localStorage.setItem("token", action.payload.token);
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -100,9 +131,23 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         state.userId = action.payload.user.userId;
         state.isAuthenticated = true;
-        localStorage.setItem("token", action.payload.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(googleLogin.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.userId = action.payload.user.userId;
+        state.isAuthenticated = true;
+      })
+      .addCase(googleLogin.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
@@ -111,7 +156,6 @@ const authSlice = createSlice({
         state.token = null;
         state.userId = null;
         state.isAuthenticated = false;
-        localStorage.removeItem("token"); // ✅ Double-check token removal
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.error = action.payload;

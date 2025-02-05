@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../redux/userRelated/authSlice";
+import { registerUser, googleLogin } from "../redux/userRelated/authSlice";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import signupImg from "../assets/signupImg.jpg"; // Import your image
+import signupImg from "../assets/signupImg.jpg";
 import { DotLoader } from "react-spinners";
 
 const Signup = () => {
@@ -27,21 +27,32 @@ const Signup = () => {
       .catch((err) => console.error(err));
   };
 
+  const handleGoogleLogin = (response) => {
+    const { tokenId } = response;
+    dispatch(googleLogin(tokenId))
+      .unwrap()
+      .then(() => navigate("/login"))
+      .catch((err) => console.error(err));
+  };
+
+  const handleGoogleFailure = (error) => {
+    console.error("Google login failed", error);
+  };
+
   return (
-    <section className="flex justify-center items-center min-h-screen  xl:px-0 bg-white">
+    <section className="flex justify-center items-center min-h-screen xl:px-0 bg-white">
       {/* Image Section (Right Side) */}
       <div className="hidden md:flex flex-2 w-full lg:w-2/3 items-center justify-center relative order-1 lg:order-2">
         <img
           src={signupImg}
           alt="Login Visual"
           className="w-full h-full object-cover"
-          loading="lazy" // Add this line for lazy loading
+          loading="lazy"
         />
-
-        {/* Text Overlay on Image */}
       </div>
+
       {/* Form Section */}
-      <div className="rounded-lg flex-[1] lg:pr-16  w-full px-5 h-full flex justify-center items-center">
+      <div className="rounded-lg flex-[1] lg:pr-16 w-full px-5 h-full flex justify-center items-center">
         <div className="w-full max-w-[570px]">
           <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
             Welcome to <span className="text-blue-500">Techtales</span>
@@ -123,6 +134,10 @@ const Signup = () => {
               <button
                 type="button"
                 className="w-full flex items-center justify-center gap-2 bg-white text-[#757575] text-[18px] leading-[30px] rounded-lg px-4 py-3 border border-[#ddd] hover:bg-gray-50"
+                onClick={() =>
+                  (window.location.href =
+                    "http://localhost:8000/api/auth/google/callback")
+                }
               >
                 <img
                   src="https://www.google.com/favicon.ico"
