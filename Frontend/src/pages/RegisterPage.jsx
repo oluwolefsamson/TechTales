@@ -6,6 +6,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import signupImg from "../assets/signupImg.jpg";
 import { DotLoader } from "react-spinners";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -25,18 +27,6 @@ const Signup = () => {
       .unwrap()
       .then(() => navigate("/login"))
       .catch((err) => console.error(err));
-  };
-
-  const handleGoogleLogin = (response) => {
-    const { tokenId } = response;
-    dispatch(googleLogin(tokenId))
-      .unwrap()
-      .then(() => navigate("/login"))
-      .catch((err) => console.error(err));
-  };
-
-  const handleGoogleFailure = (error) => {
-    console.error("Google login failed", error);
   };
 
   return (
@@ -135,8 +125,7 @@ const Signup = () => {
                 type="button"
                 className="w-full flex items-center justify-center gap-2 bg-white text-[#757575] text-[18px] leading-[30px] rounded-lg px-4 py-3 border border-[#ddd] hover:bg-gray-50"
                 onClick={() =>
-                  (window.location.href =
-                    "http://localhost:8000/api/auth/google/callback")
+                  (window.location.href = `${API_URL}/api/auth/google/callback`)
                 }
               >
                 <img
