@@ -17,6 +17,7 @@ passport.use(
       console.log("Google profile:", profile); // Debugging line
 
       if (!profile) {
+        console.error("Google profile not found"); // Error log
         return done(new Error("Profile not found"));
       }
 
@@ -25,6 +26,9 @@ passport.use(
 
         if (!user) {
           // If no user exists, create a new one
+          console.log(
+            `No user found. Creating a new user: ${profile.emails[0].value}`
+          ); // Info log
           user = new User({
             googleId: profile.id,
             name: profile.displayName,
@@ -33,15 +37,20 @@ passport.use(
           });
 
           await user.save();
+          console.log("User created successfully:", user); // Success log
         } else if (!user.googleId) {
           // If user exists but does not have a Google ID, update it
+          console.log(
+            `User found, but no Google ID. Updating user with Google ID: ${profile.id}`
+          ); // Info log
           user.googleId = profile.id;
           await user.save();
+          console.log("User updated successfully:", user); // Success log
         }
 
         return done(null, user);
       } catch (err) {
-        console.error("Error during authentication:", err);
+        console.error("Error during authentication:", err); // Error log
         return done(err, null);
       }
     }
@@ -50,14 +59,17 @@ passport.use(
 
 // Serialize and Deserialize User
 passport.serializeUser((user, done) => {
+  console.log("Serializing user:", user.id); // Info log
   done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
+    console.log("Deserialized user:", user); // Info log
     done(null, user);
   } catch (err) {
+    console.error("Error during deserialization:", err); // Error log
     done(err, null);
   }
 });
