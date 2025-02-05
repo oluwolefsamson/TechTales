@@ -55,12 +55,9 @@ export const googleLogin = createAsyncThunk(
   "auth/googleLogin",
   async (token, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/auth/google/callback`,
-        {
-          token,
-        }
-      );
+      const response = await axios.get(`${API_URL}/api/auth/google/callback`, {
+        token,
+      });
       setAuthToken(response.data.token);
       return response.data;
     } catch (error) {
