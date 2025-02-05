@@ -27,7 +27,7 @@ router.get(
     const userId = req.user._id; // Or however you are storing the user ID
 
     // Redirect to the frontend route with userId
-    res.redirect(`http://localhost:5173/specialty/${userId}`);
+    res.redirect(`https://techtales-nsv6.onrender.com/specialty/${userId}`);
   }
 );
 
