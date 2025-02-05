@@ -9,7 +9,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL, // Ensure it's correct for production as well
+      callbackURL: "localhost:8000/api/auth/google/callback", // Ensure it's correct for production as well
       scope: ["profile", "email"], // Scopes for profile and email permissions
     },
     async (token, tokenSecret, profile, done) => {
