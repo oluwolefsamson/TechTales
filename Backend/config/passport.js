@@ -9,8 +9,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL:
-        "https://techtales-1nru.onrender.com/api/auth/google/callback",
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
       scope: ["profile", "email"], // Scopes for profile and email permissions
     },
     async (token, tokenSecret, profile, done) => {
