@@ -15,13 +15,20 @@ const corsOptions = {
     const allowedOrigins = [
       process.env.LOCAL_FRONTEND_URL,
       process.env.DEV_FRONTEND_URL,
+      "https://techtales-1nru.onrender.com",
       "https://accounts.google.com",
-      "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fapi%2Fauth%2Fgoogle%2Fcallback&scope=profile%20email&client_id=921177674856-a7s0l0srf0d4r28vn1mmm9t05qukupkn.apps.googleusercontent.com&service=lso&o2v=2&ddm=1&flowName=GeneralOAuthFlow",
     ];
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+
+    if (process.env.NODE_ENV !== "production") {
+      allowedOrigins.push("http://localhost:5173"); // Example for Vite frontend
+    }
+
+    if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    callback(new Error("Not allowed by CORS"));
+
+    console.log(`Blocked CORS request from origin: ${origin}`);
+    return callback(new Error("Not allowed by CORS"), false);
   },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,

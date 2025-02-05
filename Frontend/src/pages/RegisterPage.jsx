@@ -125,7 +125,7 @@ const Signup = () => {
                 type="button"
                 className="w-full flex items-center justify-center gap-2 bg-white text-[#757575] text-[18px] leading-[30px] rounded-lg px-4 py-3 border border-[#ddd] hover:bg-gray-50"
                 onClick={() =>
-                  (window.location.href = `https://techtales-nsv6.onrender.com/api/auth/google/callback`)
+                  (window.location.href = `https://techtales-1nru.onrender.com/api/auth/google/callback`)
                 }
               >
                 <img
