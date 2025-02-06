@@ -11,12 +11,15 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.get("/logout", logoutUser);
+router.post("/logout", logoutUser);
 
 // Google OAuth routes
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    prompt: "select_account", // Force email selection every time
+  })
 );
 
 router.get(
@@ -27,7 +30,7 @@ router.get(
     const userId = req.user._id; // Or however you are storing the user ID
 
     // Redirect to the frontend route with userId
-    res.redirect(`https://tech-tales-iota.vercel.app/specialty/${userId}`);
+    res.redirect(`http://localhost:5173/specialty/${userId}`);
   }
 );
 

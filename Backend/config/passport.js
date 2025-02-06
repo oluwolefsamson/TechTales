@@ -9,14 +9,15 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL,
-      scope: ["profile", "email"], // Scopes for profile and email permissions
+      callbackURL: "http://localhost:8000/api/auth/google/callback",
+      scope: ["profile", "email"],
+      prompt: "select_account", // Force email selection every time
     },
-    async (token, tokenSecret, profile, done) => {
-      console.log("Google profile:", profile); // Debugging line
+    async (accessToken, refreshToken, profile, done) => {
+      console.log("Google profile:", profile);
 
       if (!profile) {
-        console.error("Google profile not found"); // Error log
+        console.error("Google profile not found");
         return done(new Error("Profile not found"));
       }
 
@@ -24,10 +25,9 @@ passport.use(
         let user = await User.findOne({ email: profile.emails[0].value });
 
         if (!user) {
-          // If no user exists, create a new one
           console.log(
-            `No user found. Creating a new user: ${profile.emails[0].value}`
-          ); // Info log
+            `No user found. Creating new user: ${profile.emails[0].value}`
+          );
           user = new User({
             googleId: profile.id,
             name: profile.displayName,
@@ -36,20 +36,19 @@ passport.use(
           });
 
           await user.save();
-          console.log("User created successfully:", user); // Success log
+          console.log("User created successfully:", user);
         } else if (!user.googleId) {
-          // If user exists but does not have a Google ID, update it
           console.log(
             `User found, but no Google ID. Updating user with Google ID: ${profile.id}`
-          ); // Info log
+          );
           user.googleId = profile.id;
           await user.save();
-          console.log("User updated successfully:", user); // Success log
+          console.log("User updated successfully:", user);
         }
 
         return done(null, user);
       } catch (err) {
-        console.error("Error during authentication:", err); // Error log
+        console.error("Error during authentication:", err);
         return done(err, null);
       }
     }

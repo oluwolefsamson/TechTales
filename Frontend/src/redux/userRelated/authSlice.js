@@ -55,9 +55,12 @@ export const googleLogin = createAsyncThunk(
   "auth/googleLogin",
   async (token, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/api/auth/google/callback`, {
-        token,
-      });
+      const response = await axios.get(
+        `localhost:8000/api/auth/google/callback`,
+        {
+          token,
+        }
+      );
       setAuthToken(response.data.token);
       return response.data;
     } catch (error) {
@@ -73,8 +76,8 @@ export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
     try {
-      await axios.get(`${API_URL}/api/auth/logout`);
-      setAuthToken(null);
+      await axios.post(`${API_URL}/api/auth/logout`);
+      localStorage.removeItem("token"); // Clear token
       return true;
     } catch (error) {
       return rejectWithValue(error.response?.data?.msg || "Logout failed");

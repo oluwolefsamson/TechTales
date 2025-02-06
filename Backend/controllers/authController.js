@@ -139,9 +139,7 @@ const loginUser = async (req, res) => {
 // Google OAuth callback
 const googleAuthCallback = async (req, res) => {
   if (!req.user) {
-    return res.redirect(
-      "https://tech-tales-iota.vercel.app/login?error=google-auth-failed"
-    );
+    return res.redirect("http://localhost:5173/login?error=google-auth-failed");
   }
 
   try {
@@ -180,19 +178,25 @@ const googleAuthCallback = async (req, res) => {
     });
 
     // Redirect to ChooseSpecialty page with userId
-    res.redirect(`https://tech-tales-iota.vercel.app/specialty/${user._id}`);
+    res.redirect(`http://localhost:5173/specialty/${user._id}`);
   } catch (err) {
     console.error("Google Auth Error:", err);
-    res.redirect("https://tech-tales-iota.vercel.app/login?error=server-error");
+    res.redirect("http://localhost:5173/login?error=server-error");
   }
 };
 
 // Logout user
-const logoutUser = (req, res) => {
-  req.logout();
-  req.session.destroy(() => {
-    res.redirect("https://tech-tales-iota.vercel.app/login");
-  });
+const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+    return res.status(200).json({ msg: "Logout successful" });
+  } catch (err) {
+    console.error("Logout Error:", err);
+    res.status(500).json({ msg: "Logout failed" });
+  }
 };
 
 module.exports = { registerUser, loginUser, googleAuthCallback, logoutUser };

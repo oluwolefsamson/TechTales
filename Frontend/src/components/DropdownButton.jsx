@@ -22,10 +22,10 @@ const DropdownButton = () => {
     setIsOpen(!isOpen);
   };
 
-  // Handles user logout, dispatches logout action, and redirects to home page
+  // Handles user logout, dispatches logout action, and redirects to login page
   const handleLogout = () => {
     dispatch(logoutUser()); // Dispatch the logout action from redux
-    navigate("/"); // Redirects to home page ("/")
+    navigate("/login"); // Redirects to login page after logout
     alert("Logged out!"); // Optionally show a logout alert
   };
 
