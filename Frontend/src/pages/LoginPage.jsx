@@ -110,7 +110,7 @@ const Login = () => {
               type="button"
               className="w-full flex items-center justify-center gap-2 bg-white text-[#757575] text-[18px] leading-[30px] rounded-lg px-4 py-3 border border-[#ddd] hover:bg-gray-50"
               onClick={() =>
-                (window.location.href = `http://localhost:8000/api/auth/google`)
+                (window.location.href = `${API_URL}/api/auth/google`)
               }
             >
               <img

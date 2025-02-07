@@ -15,7 +15,6 @@ const corsOptions = {
     const allowedOrigins = [
       process.env.LOCAL_FRONTEND_URL,
       process.env.DEV_FRONTEND_URL,
-      "https://techtales-1nru.onrender.com",
       "https://accounts.google.com",
     ];
 
