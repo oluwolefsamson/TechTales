@@ -25,7 +25,7 @@ const DropdownButton = () => {
   // Handles user logout, dispatches logout action, and redirects to login page
   const handleLogout = () => {
     dispatch(logoutUser()); // Dispatch the logout action from redux
-    navigate("/login"); // Redirects to login page after logout
+    navigate("/"); // Redirects to Homepage after logout
     alert("Logged out!"); // Optionally show a logout alert
   };
 

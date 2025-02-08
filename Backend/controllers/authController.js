@@ -7,6 +7,8 @@ require("dotenv").config();
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const LOCAL_FRONTEND_URL =
   process.env.LOCAL_FRONTEND_URL || "http://localhost:5173";
+const DEV_FRONTEND_URL =
+  process.env.DEV_FRONTEND_URL || "http://localhost:5173";
 // Function to verify Google token
 const verifyGoogleToken = async (token) => {
   const ticket = await client.verifyIdToken({
@@ -140,7 +142,7 @@ const loginUser = async (req, res) => {
 // Google OAuth callback
 const googleAuthCallback = async (req, res) => {
   if (!req.user) {
-    return res.redirect(`${LOCAL_FRONTEND_URL}/login?error=google-auth-failed`);
+    return res.redirect(`${DEV_FRONTEND_URL}/login?error=google-auth-failed`);
   }
 
   try {
@@ -179,10 +181,10 @@ const googleAuthCallback = async (req, res) => {
     });
 
     // Redirect to ChooseSpecialty page with userId
-    res.redirect(`${LOCAL_FRONTEND_URL}/specialty/${user._id}`);
+    res.redirect(`${DEV_FRONTEND_URL}/specialty/${user._id}`);
   } catch (err) {
     console.error("Google Auth Error:", err);
-    res.redirect(`${LOCAL_FRONTEND_URL}/login?error=server-error`);
+    res.redirect(`${DEV_FRONTEND_URLL}/login?error=server-error`);
   }
 };
 

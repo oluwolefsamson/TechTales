@@ -10,7 +10,8 @@ const {
 const router = express.Router();
 const LOCAL_FRONTEND_URL =
   process.env.LOCAL_FRONTEND_URL || "http://localhost:5173";
-
+const DEV_FRONTEND_URL =
+  process.env.DEV_FRONTEND_URL || "http://localhost:5173";
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
@@ -32,7 +33,7 @@ router.get(
     const userId = req.user._id; // Or however you are storing the user ID
 
     // Redirect to the frontend route with userId
-    res.redirect(`${LOCAL_FRONTEND_URL}/specialty/${userId}`);
+    res.redirect(`${DEV_FRONTEND_URL}/specialty/${userId}`);
   }
 );
 
