@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DotLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, googleLogin } from "../redux/userRelated/authSlice"; // Import googleLogin from authSlice
-
+import { loginUser } from "../redux/userRelated/authSlice"; // Import googleLogin from authSlice
+import AiHead from "../assets/ai-head.png";
 import loginImg from "../assets/loginImg3.jpg";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
@@ -141,14 +141,23 @@ const Login = () => {
         />
         {/* Text Overlay on Image */}
         <div className="absolute inset-0 flex flex-col items-start  mx-8 my-10">
-          <h1 className="text-white text-xl font-bold font-poppins tracking-widest">
+          <h1 className="text-white text-xl font-extrabold font-poppins tracking-widest">
             Techtales is here
           </h1>
-          <p className="text-white text-xs mt-5 w-[280px] font-poppins leading-5">
+          <p className="text-white text-sm mt-5 w-[280px] font-poppins leading-7">
             Up to 32% higher throughput, improved horizontal scaling, expanded
             queryable encryption capabilities, and more.
           </p>
         </div>
+
+        {/* <div className="absolute inset-0 flex flex-col items-end  justify-start">
+          <div className="flex flex-col items-center justify-center mx-8 my-10">
+            <img src={AiHead} alt="ai" className="h-[300px]" />
+            <p className="text-white text-xs mt-5 w-[280px] text-center font-poppins leading-5">
+              Techtales is here
+            </p>
+          </div>
+        </div> */}
       </div>
     </section>
   );

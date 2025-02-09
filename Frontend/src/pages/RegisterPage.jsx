@@ -44,7 +44,7 @@ const Signup = () => {
       {/* Form Section */}
       <div className="rounded-lg flex-[1] lg:pr-16 w-full px-5 h-full flex justify-center items-center">
         <div className="w-full max-w-[570px]">
-          <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
+          <h3 className="text-headingColor  ss:text-[25px] text-[22px] font-poppins leading-9 font-bold mb-10 text-purple-800">
             Welcome to <span className="text-blue-500">Techtales</span>
           </h3>
           <form onSubmit={handleSubmit}>
