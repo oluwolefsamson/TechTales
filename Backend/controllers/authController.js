@@ -142,7 +142,7 @@ const loginUser = async (req, res) => {
 // Google OAuth callback
 const googleAuthCallback = async (req, res) => {
   if (!req.user) {
-    return res.redirect(`${DEV_FRONTEND_URL}/login?error=google-auth-failed`);
+    return res.redirect(`${LOCAL_FRONTEND_URL}/login?error=google-auth-failed`);
   }
 
   try {
@@ -181,10 +181,10 @@ const googleAuthCallback = async (req, res) => {
     });
 
     // Redirect to ChooseSpecialty page with userId
-    res.redirect(`${DEV_FRONTEND_URL}/specialty/${user._id}`);
+    res.redirect(`${LOCAL_FRONTEND_URL}/specialty/${user._id}`);
   } catch (err) {
     console.error("Google Auth Error:", err);
-    res.redirect(`${DEV_FRONTEND_URLL}/login?error=server-error`);
+    res.redirect(`${LOCAL_FRONTEND_URL}/login?error=server-error`);
   }
 };
 

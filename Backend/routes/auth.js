@@ -33,7 +33,7 @@ router.get(
     const userId = req.user._id; // Or however you are storing the user ID
 
     // Redirect to the frontend route with userId
-    res.redirect(`${DEV_FRONTEND_URL}/specialty/${userId}`);
+    res.redirect(`${LOCAL_FRONTEND_URL}/specialty/${userId}`);
   }
 );
 
